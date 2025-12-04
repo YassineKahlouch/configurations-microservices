@@ -6,3 +6,6 @@ spring:
 
 mes-config-ms:
   biens-last: 10
+server:
+  port: 9001
+
