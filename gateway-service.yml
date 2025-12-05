@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 spring:
   cloud:
     gateway:
@@ -27,7 +33,7 @@ spring:
           filters:
             - RewritePath=/api/clients/(?<segment>.*), /clients/${segment}
 
-        # --- RESERVATIONS DANS CLIENT-SERVICE ---
+        # --- RESERVATIONS ---
         - id: reservation-service
           uri: lb://CLIENT-SERVICE
           predicates:
