@@ -10,6 +10,7 @@ management:
 spring:
   cloud:
     gateway:
+
       discovery:
         locator:
           enabled: true
@@ -19,24 +20,24 @@ spring:
 
         # --- MS IMMOBILIER ---
         - id: immobilier-service
-          uri: lb://IMMOBILIER-SERVICE
+          uri: lb://immobilier-service
           predicates:
             - Path=/api/biens/**
           filters:
-            - RewritePath=/api/biens/(?<segment>.*), /biens/${segment}
+            - RewritePath=/api/biens(?<segment>/.*)?$, /biens${segment}
 
         # --- MS CLIENT ---
         - id: client-service
-          uri: lb://CLIENT-SERVICE
+          uri: lb://client-service
           predicates:
             - Path=/api/clients/**
           filters:
-            - RewritePath=/api/clients/(?<segment>.*), /clients/${segment}
+            - RewritePath=/api/clients(?<segment>/.*)?$, /clients${segment}
 
-        # --- RESERVATIONS ---
+        # --- MS RESERVATIONS (dans client-service) ---
         - id: reservation-service
-          uri: lb://CLIENT-SERVICE
+          uri: lb://client-service
           predicates:
             - Path=/api/reservations/**
           filters:
-            - RewritePath=/api/reservations/(?<segment>.*), /reservations/${segment}
+            - RewritePath=/api/reservations(?<segment>/.*)?$, /reservations${segment}
