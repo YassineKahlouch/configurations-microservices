@@ -10,23 +10,27 @@ spring:
           lower-case-service-id: true
 
       routes:
+
+        # --- MS IMMOBILIER ---
         - id: immobilier-service
           uri: lb://IMMOBILIER-SERVICE
           predicates:
             - Path=/api/biens/**
           filters:
-            - RewritePath=/api/biens/(?<segment>.*), /biens/${segment}
+            - RewritePath=/api/biens/(?<segment>.*), /biens/$\{segment}
 
+        # --- MS CLIENT ---
         - id: client-service
           uri: lb://CLIENT-SERVICE
           predicates:
             - Path=/api/clients/**
           filters:
-            - RewritePath=/api/clients/(?<segment>.*), /clients/${segment}
+            - RewritePath=/api/clients/(?<segment>.*), /clients/$\{segment}
 
+        # --- MS RESERVATION (INCLUS DANS CLIENT-SERVICE) ---
         - id: reservation-service
           uri: lb://CLIENT-SERVICE
           predicates:
             - Path=/api/reservations/**
           filters:
-            - RewritePath=/api/reservations/(?<segment>.*), /reservations/${segment}
+            - RewritePath=/api/reservations/(?<segment>.*), /reservations/$\{segment}
