@@ -17,7 +17,7 @@ spring:
           predicates:
             - Path=/api/biens/**
           filters:
-            - RewritePath=/api/biens/(?<segment>.*), /biens/$\{segment}
+            - RewritePath=/api/biens/(?<segment>.*), /biens/${segment}
 
         # --- MS CLIENT ---
         - id: client-service
@@ -25,12 +25,12 @@ spring:
           predicates:
             - Path=/api/clients/**
           filters:
-            - RewritePath=/api/clients/(?<segment>.*), /clients/$\{segment}
+            - RewritePath=/api/clients/(?<segment>.*), /clients/${segment}
 
-        # --- MS RESERVATION (INCLUS DANS CLIENT-SERVICE) ---
+        # --- RESERVATIONS DANS CLIENT-SERVICE ---
         - id: reservation-service
           uri: lb://CLIENT-SERVICE
           predicates:
             - Path=/api/reservations/**
           filters:
-            - RewritePath=/api/reservations/(?<segment>.*), /reservations/$\{segment}
+            - RewritePath=/api/reservations/(?<segment>.*), /reservations/${segment}
