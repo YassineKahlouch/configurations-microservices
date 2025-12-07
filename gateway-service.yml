@@ -33,6 +33,13 @@ spring:
             - Path=/api/clients/**
           filters:
             - RewritePath=/api/clients(?<segment>/.*)?$, /clients${segment}
+         # --- MS CLIENT (auth) ---
+        - id: client-auth
+          uri: lb://client-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth(?<segment>/.*)?$, /auth${segment}
 
         # --- ⭐ RESERVATIONS dans client-service ---
         - id: reservation-service
