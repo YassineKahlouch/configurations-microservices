@@ -43,6 +43,6 @@ spring:
             - RewritePath=/api/reservations(?<segment>/.*)?$, /reservations${segment}
 app:
   jwt:
-    secret: "MaSuperCleTresSecretePourJWT1234567890"  # 💥 EXACTEMENT la même que client-service
+    secret: "MaSuperCleTresSecretePourJWT1234567890"
     expiration: 3600000
 
