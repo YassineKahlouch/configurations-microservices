@@ -22,3 +22,7 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
+app:
+  jwt:
+    secret: "MaSuperCleTresSecretePourJWT1234567890"
+    expiration: 3600000
