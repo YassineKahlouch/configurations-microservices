@@ -1,13 +1,6 @@
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
 spring:
   cloud:
     gateway:
-
       discovery:
         locator:
           enabled: true
@@ -15,22 +8,7 @@ spring:
 
       routes:
 
-        # --- MS IMMOBILIER ---
-        - id: immobilier-service
-          uri: lb://immobilier-service
-          predicates:
-            - Path=/api/biens/**
-          filters:
-            - RewritePath=/api/biens(?<segment>/.*)?$, /biens${segment}
-
-        # --- MS CLIENT ---
-        - id: client-service
-          uri: lb://client-service
-          predicates:
-            - Path=/api/clients/**
-          filters:
-            - RewritePath=/api/clients(?<segment>/.*)?$, /clients${segment}
-         # --- MS CLIENT (auth) ---
+        # AUTH — public
         - id: client-auth
           uri: lb://client-service
           predicates:
@@ -38,15 +16,27 @@ spring:
           filters:
             - RewritePath=/api/auth(?<segment>/.*)?$, /auth${segment}
 
-        # --- ⭐ RESERVATIONS dans client-service ---
+        # CLIENTS — réservé ADMIN
+        - id: client-service
+          uri: lb://client-service
+          predicates:
+            - Path=/api/clients/**
+          filters:
+            - RewritePath=/api/clients(?<segment>/.*)?$, /clients${segment}
+            - Role=ADMIN
+
+        # BIENS — accessible USER & ADMIN
+        - id: immobilier-service
+          uri: lb://immobilier-service
+          predicates:
+            - Path=/api/biens/**
+          filters:
+            - RewritePath=/api/biens(?<segment>/.*)?$, /biens${segment}
+
+        # RESERVATIONS — USER & ADMIN
         - id: reservation-service
           uri: lb://client-service
           predicates:
             - Path=/api/reservations/**
           filters:
             - RewritePath=/api/reservations(?<segment>/.*)?$, /reservations${segment}
-app:
-  jwt:
-    secret: "MaSuperCleTresSecretePourJWT1234567890"
-    expiration: 3600000
-
